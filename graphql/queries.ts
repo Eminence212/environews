@@ -142,6 +142,8 @@ export const GET_POSTS_HOME = (name) => {
 export const GET_POSTS_SLUG = (slug) => gql`
 {
   post(id: "${slug}", idType: URI) {
+	id
+	databaseId
     title
     content
 	date
@@ -164,6 +166,7 @@ export const GET_POSTS_SLUG = (slug) => gql`
     comments {
       edges {
         node {
+		  date
           content
           author {
             node {
@@ -208,3 +211,20 @@ export const GET_BREAKING_NEWS_POST = (slug) => gql`
 		}
 	}
 `;
+
+export const INSERT_COMMENT = (id, author, comment) => {
+	return gql`
+		mutation CREATE_COMMENT {
+			createComment(
+				input: {
+					commentOn: ${id}
+					content: "${comment}"
+					author: "${author}"
+				
+				}
+			) {
+				success
+			}
+		}
+	`;
+};

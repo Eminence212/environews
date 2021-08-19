@@ -2,6 +2,11 @@
 	color: #222;
 }
 
+.scroll {
+	height: 250px;
+	overflow-y: scroll;
+}
+
 .title {
 	text-transform: uppercase;
 	font-weight: 400;
