@@ -407,6 +407,7 @@ const HiddenMenu: React.FC = () => {
 
 const SearchBar: React.FC = () => {
 	const { toggleSearch, setToggleSearch } = useContext(toggleSearchContext);
+
 	return (
 		<div
 			className={`${headerStyles.search_bar_container} ${
