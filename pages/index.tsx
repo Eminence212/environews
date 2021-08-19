@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import AliceCarousel from 'react-alice-carousel';
 import Link from 'next/link';
 import heroStyles from '../styles/Hero.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -53,8 +54,9 @@ export default function Home({
 		useState<IState['breakingNews']>(breakingNews);
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
-	const filteredArticles = articles.filter((item, key) => key < 4);
-	const topArcticles = articles.slice(5, 10);
+	const filteredArticles = articles.slice(6, 10);
+	const topArcticles = articles.slice(10, 15);
+	const slider = articles.slice(0, 5);
 
 	let randomId = Math.floor(Math.random() * 20);
 	const Toparticle = articles.filter((value, key, array) => key == 19);
@@ -68,24 +70,24 @@ export default function Home({
 		<Image
 			key={1}
 			src='/assets/image.webp'
-			width={800}
-			height={150}
+			width={1600}
+			height={300}
 			onDragStart={handleDragStart}
 			alt='ad'
 		/>,
 		<Image
 			key={2}
 			src='/assets/image2.webp'
-			width={800}
-			height={150}
+			width={1600}
+			height={300}
 			onDragStart={handleDragStart}
 			alt='ad'
 		/>,
 		<Image
 			key={3}
 			src='/assets/image3.webp'
-			width={800}
-			height={150}
+			width={1600}
+			height={300}
 			onDragStart={handleDragStart}
 			alt='ad'
 		/>,
@@ -105,48 +107,72 @@ export default function Home({
 
 			<div className='container'>
 				<div className={`row ${heroStyles.hero}`}>
+					<AliceCaroussel />
+
 					<div className='col-md-8 col-sm-12'>
 						<div className={heroStyles.topNews}>
-							<AliceCaroussel />
 							<br />
 							<br />
-							<Link
-								href='/[annee]/[mois]/[jour]/[slug]'
-								as={`${Toparticle[0].node.uri}`}>
-								<a style={{ color: 'inherit' }}>
-									<h5
-										className={`border-start px-3 border-success border-5 ${heroStyles.title}`}>
-										{Toparticle[0].node.title.split(':').length == 2
-											? Toparticle[0].node.title.split(':')[0]
-											: 'Environews'}
-									</h5>
-									<img
-										src={`${Toparticle[0].node.featuredImage.node.sourceUrl}`}
-										alt={Toparticle[0].node.title}
-										className='w-100'
-										style={{ objectFit: 'cover' }}
-									/>
-
-									<h4>
-										{Toparticle[0].node.title.split(':').length == 2
-											? Toparticle[0].node.title.split(':')[1]
-											: Toparticle[0].node.title.split(':')[0] + '.'}
-									</h4>
-								</a>
-							</Link>
+							<AliceCarousel
+								mouseTracking
+								items={topArcticles.map((article, index) => {
+									return (
+										<>
+											<Link
+												href='/[annee]/[mois]/[jour]/[slug]'
+												as={`${article.node.uri}`}>
+												<a>
+													<div key={index} className={`${heroStyles.slider}`}>
+														<img
+															src={`${article.node.featuredImage.node.sourceUrl}`}
+															alt={article.node.title}
+															className={`w-100 ${heroStyles.imageSlider}`}
+															style={{ objectFit: 'cover' }}
+														/>
+														<div className={`${heroStyles.textContainer}`}>
+															<h5
+																className={`border-start px-3 border-success border-5 ${heroStyles.slideTitle}`}>
+																{article.node.title.split(':').length == 2
+																	? article.node.title.split(':')[0]
+																	: 'Environews'}
+															</h5>
+															<h4 className={`text-white`}>
+																{article.node.title.split(':').length == 2
+																	? article.node.title.split(':')[1]
+																	: article.node.title.split(':')[0] + '.'}
+															</h4>
+														</div>
+													</div>
+												</a>
+											</Link>
+										</>
+									);
+								})}
+								infinite
+								disableDotsControls
+								disableButtonsControls
+								autoPlay
+								animationDuration={400}
+								autoPlayInterval={10000}
+								animationType='fadeout'
+								// autoWidth={true}
+							/>
+							{/* <span>
+								{}
+							</span> */}
 						</div>
 						<br />
 						<br />
 						<Articles articles={filteredArticles} />
 					</div>
-					<div className='col-md-4 col-sm-12'>
+					<div className='mt-5 col-md-4 col-sm-12'>
 						<BreakingNews breakingNews={breakingNews_} />
 						<div className={heroStyles.pub}>
 							<iframe
 								title='OTFF 2021'
 								width='100%'
 								height='250'
-								src='https://www.youtube.com/embed/wuhqkNhZQ78?autoplay=1&amp;mute=0'
+								src='https://www.youtube.com/embed/wuhqkNhZQ78?autoplay=0&amp;rel=0&amp;mute=0'
 								frameBorder='0'></iframe>
 						</div>
 						<Opportunities opportunities={opportunities_} />
