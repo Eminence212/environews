@@ -35,6 +35,8 @@ const Categorie = ({ posts }) => {
 		(article, key) => key >= 10 && key < 18
 	);
 
+	console.log(articles[0].node.content);
+
 	let deleteFig2 = articles[0].node.content.indexOf('src');
 	let deleteFig3 = articles[0].node.content.lastIndexOf('jpg');
 	let img = articles[0].node.content.slice(deleteFig2, deleteFig3);

@@ -223,7 +223,6 @@ const NavBar: React.FC = () => {
 	}, []);
 
 	const router = useRouter();
-	console.log(router);
 
 	return (
 		<div className={headerStyles.nav_container}>

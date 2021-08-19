@@ -19,9 +19,14 @@ import {
 
 import Link from 'next/link';
 import client from '../../../../../graphql/uri';
-import { GET_NEWS, GET_POSTS_SLUG } from '../../../../../graphql/queries';
+import {
+	GET_NEWS,
+	GET_POSTS_SLUG,
+	INSERT_COMMENT,
+} from '../../../../../graphql/queries';
 import { IArticles } from '../../../../categories/[name]/index';
 import { SimilarArticle } from '../../../../../components/Articles';
+import { useMutation } from '@apollo/client';
 
 export interface IComments {
 	comments: {
@@ -33,6 +38,38 @@ export interface IComments {
 }
 
 const Article = ({ article, news }) => {
+	const [coudlAppear, setCouldAppear] = useState(false);
+	const [pseudoComment, setPseudo] = useState('');
+	const [comment, setComment] = useState('');
+	const idPost = article.databaseId;
+
+	const handleChange = (event) => {
+		setPseudo(event.target.value);
+	};
+	const handleChangeComment = (event) => {
+		setComment(event.target.value);
+	};
+
+	const [insertMutation] = useMutation(
+		INSERT_COMMENT(idPost, pseudoComment, comment)
+	);
+
+	const handleSubmit = (e) => {
+		insertMutation();
+		setComment('');
+		setPseudo('');
+		setCouldAppear(true);
+		e.preventDefault();
+	};
+
+	if (coudlAppear) {
+		setTimeout(() => {
+			setCouldAppear(false);
+		}, 2000);
+	}
+
+	console.log(article.comments);
+
 	let deleteFig = article.content.replace(
 		/(figure|img)/,
 		'$1 style="display:none"'
@@ -42,23 +79,24 @@ const Article = ({ article, news }) => {
 		`style='display:none'`
 	);
 
-	const deleteFig2 = article.content.indexOf('src');
-	const deleteFig3 = article.content.lastIndexOf('jpg');
-	const img = article.content.slice(deleteFig2, deleteFig3);
+	const findSrc = article.content.indexOf('src');
+	const findJpg = article.content.lastIndexOf('jpg');
+	const img = article.content.slice(findSrc, findJpg);
 	const alt = img.indexOf('alt');
 	const src = img.slice(5, alt - 2);
-	const src2 = src.replace(
+	const srcReplaced = src.replace(
 		/http:\/\/environews-rdc.test:82/,
 		'https://a1-environews.kinshasadigital.academy/'
 	);
 
 	let image = '/assets/not_found.jpg';
 
-	if (src2.startsWith('https://a1-environews.kinshasadigital.academy/')) {
-		image = src2;
+	if (
+		srcReplaced.startsWith('https://a1-environews.kinshasadigital.academy/')
+	) {
+		image = srcReplaced;
 	}
 
-	console.log('article reading', content, src2);
 	const [comments, setComments] = useState<IComments['comments']>([
 		{
 			id: '34',
@@ -163,28 +201,49 @@ const Article = ({ article, news }) => {
 							<h4 className='border-start px-2 border-success border-5'>
 								LAISSER UN COMMENTAIRE
 							</h4>
-							<div className={articleStyles.form}>
+							<form
+								className={articleStyles.form}
+								onSubmit={(event) => {
+									handleSubmit(event);
+								}}>
 								<input
 									className='form-control form-control-lg'
 									type='text'
 									placeholder='Pseudo'
+									value={pseudoComment}
+									onChange={(event) => {
+										handleChange(event);
+									}}
 								/>
 								<textarea
 									className='form-control'
-									placeholder='Commentaire'></textarea>
-								<button className='btn btn-success'>Envoyer</button>
-							</div>
+									placeholder='Commentaire'
+									value={comment}
+									onChange={(event) => {
+										handleChangeComment(event);
+									}}></textarea>
+								<button className='btn btn-success' type='submit'>
+									Envoyer
+								</button>
+
+								{coudlAppear && (
+									<h6 className='alert alert-success mt-4'>
+										Votre commentaire à été envoyé avec success
+									</h6>
+								)}
+							</form>
 						</div>
 						<div className='col-md-1 col-sm-12'></div>
-
-						{/** 
-							 * 	<div className='col-md-6 col-sm-12'>
+						<div className='col-md-6 col-sm-12'>
 							<h4 className='border-start px-2 border-success border-5'>
 								DERNIERS COMMENTAIRES
 							</h4>
-							<Comments comments={comments} />
+							{article.comments.edges == null ? (
+								<h4 className='text-success mt-5'>Aucun commentaire</h4>
+							) : (
+								<Comments comments={article.comments.edges} />
+							)}
 						</div>
-							*/}
 					</div>
 				</div>
 				<div className='col-md-3 col-sm-12'>
