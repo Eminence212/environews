@@ -169,16 +169,23 @@ const Article = ({ article, news }) => {
 						</li>
 					</div>
 
-					<div style={{ padding: '0px 0px 0px 10px' }}>
+					<div className={articleStyles.socialContainer}>
 						<FacebookShareButton
+							className={articleStyles.social}
 							url={`http://localhost:3000/${article.uri}`}
 							quote='Title'>
 							<FacebookIcon size={30} />
 						</FacebookShareButton>
-						<TwitterShareButton url={`http://localhost:3000/${article.uri}`}>
+
+						<TwitterShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							className={articleStyles.social}>
 							<TwitterIcon size={30} />
 						</TwitterShareButton>
-						<WhatsappShareButton url={`http://localhost:3000/${article.uri}`}>
+
+						<WhatsappShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							className={articleStyles.social}>
 							<WhatsappIcon size={30} />
 						</WhatsappShareButton>
 					</div>
