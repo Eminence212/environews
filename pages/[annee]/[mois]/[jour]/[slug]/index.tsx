@@ -17,6 +17,16 @@ import {
 	FaWhatsappSquare,
 } from 'react-icons/fa';
 
+import {
+	FacebookShareButton,
+	FacebookIcon,
+	LinkedinIcon,
+	LinkedinShareButton,
+	TwitterIcon,
+	TwitterShareButton,
+	WhatsappIcon,
+	WhatsappShareButton,
+} from 'react-share';
 import Link from 'next/link';
 import client from '../../../../../graphql/uri';
 import { GET_NEWS, GET_POSTS_SLUG } from '../../../../../graphql/queries';
@@ -82,6 +92,7 @@ const Article = ({ article, news }) => {
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
 	const filteredArticlesSix = articles.filter((item, key) => key < 4);
+	console.log(article.uri);
 
 	return (
 		<div className={`container ${articleStyles.articleContent}`}>
@@ -121,38 +132,22 @@ const Article = ({ article, news }) => {
 					</div>
 
 					<div style={{ padding: '0px 0px 0px 10px' }}>
-						<Link href='/'>
-							<a>
-								<FaFacebookSquare
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'darkblue' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaTwitter
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'steelblue' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaWhatsappSquare
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'green' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaLinkedinIn
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'blue' }}
-								/>
-							</a>
-						</Link>
+						<FacebookShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							quote='Title'>
+							<FacebookIcon size={30} />
+						</FacebookShareButton>
+						<LinkedinShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							title='Share'>
+							<LinkedinIcon size={30} />
+						</LinkedinShareButton>
+						<TwitterShareButton url={`http://localhost:3000/${article.uri}`}>
+							<TwitterIcon size={30} />
+						</TwitterShareButton>
+						<WhatsappShareButton url={`http://localhost:3000/${article.uri}`}>
+							<WhatsappIcon size={30} />
+						</WhatsappShareButton>
 					</div>
 					<br />
 
