@@ -137,11 +137,6 @@ const Article = ({ article, news }) => {
 							quote='Title'>
 							<FacebookIcon size={30} />
 						</FacebookShareButton>
-						<LinkedinShareButton
-							url={`http://localhost:3000/${article.uri}`}
-							title='Share'>
-							<LinkedinIcon size={30} />
-						</LinkedinShareButton>
 						<TwitterShareButton url={`http://localhost:3000/${article.uri}`}>
 							<TwitterIcon size={30} />
 						</TwitterShareButton>
