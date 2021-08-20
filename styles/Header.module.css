@@ -71,6 +71,9 @@
 }
 .nav_container {
 	background: #089047;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .nav::-webkit-scrollbar {
@@ -215,6 +218,13 @@
 	transition: 0.5s ease;
 	opacity: 0;
 	visibility: hidden;
+}
+
+.youtube {
+	background: crimson;
+	padding: 7px;
+	cursor: pointer;
+	border-radius: 5px;
 }
 @media screen and (max-width: 1300px) {
 	.link {

@@ -13,6 +13,7 @@ import {
 	FaLinkedinIn,
 	FaTwitter,
 	FaYoutubeSquare,
+	FaYoutube,
 } from 'react-icons/fa';
 import {
 	toggleMenuContext,
@@ -244,6 +245,14 @@ const NavBar: React.FC = () => {
 						</a>
 					</Link>
 				))}
+				<Link
+					href='https://www.youtube.com/user/environnementrdc'
+					as='https://www.youtube.com/user/environnementrdc'
+					passHref>
+					<a className={headerStyles.link} target='_blank'>
+						<FaYoutube fontSize={19} />
+					</a>
+				</Link>
 			</div>
 		</div>
 	);

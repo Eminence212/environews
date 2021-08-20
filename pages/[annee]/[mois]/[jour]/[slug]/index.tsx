@@ -169,21 +169,27 @@ const Article = ({ article, news }) => {
 						</li>
 					</div>
 
-					<div style={{ padding: '0px 0px 0px 10px' }}>
+					<div className={articleStyles.socialContainer}>
 						<FacebookShareButton
+							className={articleStyles.social}
 							url={`http://localhost:3000/${article.uri}`}
-							quote='Title'>
+							quote={article.title + ' A lire sur notre site'}>
 							<FacebookIcon size={30} />
 						</FacebookShareButton>
-						<LinkedinShareButton
+
+						<TwitterShareButton
 							url={`http://localhost:3000/${article.uri}`}
-							title='Share'>
-							<LinkedinIcon size={30} />
-						</LinkedinShareButton>
-						<TwitterShareButton url={`http://localhost:3000/${article.uri}`}>
+							className={articleStyles.social}
+							title={article.title}
+							via='environews_rdc'>
 							<TwitterIcon size={30} />
 						</TwitterShareButton>
-						<WhatsappShareButton url={`http://localhost:3000/${article.uri}`}>
+
+						<WhatsappShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							className={articleStyles.social}
+							title={'' + article.title}
+							separator=': '>
 							<WhatsappIcon size={30} />
 						</WhatsappShareButton>
 					</div>
@@ -233,7 +239,7 @@ const Article = ({ article, news }) => {
 							<h4 className='border-start px-2 border-success border-5'>
 								DERNIERS COMMENTAIRES
 							</h4>
-							{article.comments.edges == null ? (
+							{article.comments.edges.node == null ? (
 								<h4 className='text-success mt-5'>Aucun commentaire</h4>
 							) : (
 								<Comments comments={article.comments.edges} />
