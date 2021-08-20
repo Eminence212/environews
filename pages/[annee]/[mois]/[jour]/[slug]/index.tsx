@@ -173,19 +173,23 @@ const Article = ({ article, news }) => {
 						<FacebookShareButton
 							className={articleStyles.social}
 							url={`http://localhost:3000/${article.uri}`}
-							quote='Title'>
+							quote={article.title + ' A lire sur notre site'}>
 							<FacebookIcon size={30} />
 						</FacebookShareButton>
 
 						<TwitterShareButton
 							url={`http://localhost:3000/${article.uri}`}
-							className={articleStyles.social}>
+							className={articleStyles.social}
+							title={article.title}
+							via='environews_rdc'>
 							<TwitterIcon size={30} />
 						</TwitterShareButton>
 
 						<WhatsappShareButton
 							url={`http://localhost:3000/${article.uri}`}
-							className={articleStyles.social}>
+							className={articleStyles.social}
+							title={'' + article.title}
+							separator=': '>
 							<WhatsappIcon size={30} />
 						</WhatsappShareButton>
 					</div>
