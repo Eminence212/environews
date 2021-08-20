@@ -415,12 +415,27 @@ const SearchBar: React.FC = () => {
 	}, []);
 
 	const handleChange = (event) => {
-		setQuery(event.target.value.replace(/[$&+,:;=?@#|'<>.^*()%!-]/g, ''));
-		const filteredArticles = articles.filter((article) =>
-			article.node.title.toLowerCase().includes(query.toLowerCase())
+		//setfilteredArticles([]);
+		setQuery(
+			event.target.value.replace(
+				/[<>{}\"/|;:.,~!?@#$%^=&*\\]\\\\()\\[¿§«»ω⊙¤°℃℉€¥£¢¡®©0-9_+]|\s/g,
+				''
+			)
 		);
+		const filteredArticles = articles.filter((article) => {
+			if (article.node.title.toLowerCase().includes(query.toLowerCase())) {
+				return true;
+			} else {
+				return false;
+			}
+		});
 		setfilteredArticles(filteredArticles);
 		setAutocomplete(true);
+
+		if (query == '') {
+			setfilteredArticles([]);
+			setAutocomplete(false);
+		}
 	};
 
 	const handleClick = () => {
@@ -428,11 +443,9 @@ const SearchBar: React.FC = () => {
 		setfilteredArticles([]);
 	};
 
-	console.log(' les articles sont la ', articles);
-
-	console.log(' les articles filtre sont la ', filteredArticles);
-
 	let strong = new RegExp(query, 'i');
+
+	console.log('taille tab ', filteredArticles.length);
 
 	return (
 		<div className='m-4 col-md-7 d-flex flex-column position-relative'>

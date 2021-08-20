@@ -242,8 +242,7 @@ const Article = ({ article, news }) => {
 					</div>
 				</div>
 				<div className='col-md-3 col-sm-12'>
-					<div className={articleStyles.pub}></div>
-					<div className={`my-5 ${articleStyles.similarContainer}`}>
+					<div className={`${articleStyles.similarContainer}`}>
 						<h6 className='border-start px-2 border-success border-5'>
 							A LIRE AUSSI
 						</h6>
