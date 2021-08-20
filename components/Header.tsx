@@ -251,6 +251,14 @@ const NavBar: React.FC = () => {
 					</Link>
 				))}
 			</div>
+			<Link
+				href='https://www.youtube.com/user/environnementrdc'
+				as='https://www.youtube.com/user/environnementrdc'
+				passHref>
+				<a className={headerStyles.link} target='_blank'>
+					<span className={headerStyles.youtube}>Youtube</span>
+				</a>
+			</Link>
 		</div>
 	);
 };

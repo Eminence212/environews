@@ -53,15 +53,19 @@ const EnvironewsTV = () => {
 					<div className='col-md-12'>
 						<h1 className={`text-center ${AboutStyle.title}`}>
 							<span className='border-start border-success border-5 px-2'>
-								ENVIRON NEWS TV
+								ENVIRONEWS TV
 							</span>
 						</h1>
 					</div>
-					<div className='col-md-3 col-12 my-3 my-md-0 text-center'>
-						<img
-							src='/assets/environews_logo.png'
-							className='img-fluid text-center'
-							alt='logo environews'
+					<div className='col-md-4 col-12 my-3 my-md-0 text-center'>
+						<iframe
+							width='420'
+							height='230'
+							src={`https://www.youtube.com/embed/fE5xTw5TFs8`}
+							frameBorder='1'
+							allow='accelerometer; autoPlay; clipboardWrite; encryptedMedia; gyroscope; pictureInPicture'
+							allowFullScreen
+							title='Embedded youtube'
 						/>
 					</div>
 					<div
