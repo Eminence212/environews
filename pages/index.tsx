@@ -222,9 +222,9 @@ export default function Home({
 				<h3>NEWSLETTER</h3>
 				<form>
 					<input
-						className='form-control form-control-lg'
+						className='form-control form-control-md'
 						type='email'
-						placeholder='Adresse Email'></input>
+						placeholder='Veuillez renseigner votre Email'></input>
 					<p>
 						Inscrivez-vous à notre newsletter pour vous tenir au courant de nos
 						activités.
