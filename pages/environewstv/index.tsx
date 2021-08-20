@@ -57,10 +57,10 @@ const EnvironewsTV = () => {
 							</span>
 						</h1>
 					</div>
-					<div className='col-md-4 col-12 my-3 my-md-0 text-center'>
+					<div className='col-md-4 col-12 my-3 my-md-0'>
 						<iframe
-							width='420'
-							height='230'
+							width='380'
+							height='220'
 							src={`https://www.youtube.com/embed/fE5xTw5TFs8`}
 							frameBorder='1'
 							allow='accelerometer; autoPlay; clipboardWrite; encryptedMedia; gyroscope; pictureInPicture'
@@ -69,7 +69,7 @@ const EnvironewsTV = () => {
 						/>
 					</div>
 					<div
-						className={`p-md-5 col-11 mt-2 col-md-8 mx-auto ${AboutStyle.about_us}`}>
+						className={`p-md-1 col-11 mt-1 col-md-8 mx-auto ${AboutStyle.about_us}`}>
 						<p className={`text-justify ${EnvironewsStyle.font_bold}`}>
 							<strong>
 								Environews TV est une chaine de télévision thématique axée sur l
