@@ -54,11 +54,8 @@ export default function Home({
 		useState<IState['breakingNews']>(breakingNews);
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
-	const filteredArticles = articles.slice(6, 10);
-	const topArcticles = articles.slice(10, 15);
-	const slider = articles.slice(0, 5);
-
-	let randomId = Math.floor(Math.random() * 20);
+	const filteredArticles = articles.filter((item, key) => key < 4);
+	const topArcticles = articles.slice(5, 10);
 	const Toparticle = articles.filter((value, key, array) => key == 19);
 
 	const [opportunities_, setOpportunities] =

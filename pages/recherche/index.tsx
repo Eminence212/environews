@@ -1,11 +1,11 @@
-import Banner from '../../../components/Banner';
-import LayoutArticle from '../../../components/LayoutArticle';
+import Banner from '../../components/Banner';
+import LayoutArticle from '../../components/LayoutArticle';
 import { useState, useEffect } from 'react';
 //import { ArticleCard } from '../../../components/Articles';
 import { useRouter } from 'next/router';
-import client from '../../../graphql/uri';
-import { GET_POSTS } from '../../../graphql/queries';
-import AliceCaroussel from '../../../components/AliceCaroussel';
+import client from '../../graphql/uri';
+import { GET_POSTS } from '../../graphql/queries';
+import AliceCaroussel from '../../components/AliceCaroussel';
 
 export interface IArticles {
 	articles: {
@@ -18,7 +18,7 @@ export interface IArticles {
 		node?: any;
 	}[];
 }
-const Categorie = ({ posts }) => {
+const Recherche = ({ posts }) => {
 	const router = useRouter();
 
 	const { name } = router.query;
@@ -35,36 +35,28 @@ const Categorie = ({ posts }) => {
 		(article, key) => key >= 10 && key < 18
 	);
 
-	console.log(articles[0].node.content);
-
-	let deleteFig2 = articles[0].node.content.indexOf('src');
-	let deleteFig3 = articles[0].node.content.lastIndexOf('jpg');
-	let img = articles[0].node.content.slice(deleteFig2, deleteFig3);
+	let findSrc = articles[0].node.content.indexOf('src');
+	let findJpg = articles[0].node.content.lastIndexOf('jpg');
+	let img = articles[0].node.content.slice(findSrc, findJpg);
 	let alt = img.indexOf('alt');
 	let src = img.slice(5, alt - 2);
-	let src2 = src.replace(
+	let srcReplaced = src.replace(
 		/http:\/\/environews-rdc.test:82/,
 		'https://a1-environews.kinshasadigital.academy/'
 	);
 
 	let image = '/assets/not_found.jpg';
 
-	if (src2.startsWith('https://a1-environews.kinshasadigital.academy/')) {
-		image = src2;
+	if (
+		srcReplaced.startsWith('https://a1-environews.kinshasadigital.academy/')
+	) {
+		image = srcReplaced;
 	}
 
 	let postImgCat =
 		(articles[0].node.featuredImage !== null
 			? articles[0].node.featuredImage.node.mediaItemUrl
 			: `${image}`) || articles[0].node.featuredImage.node.sourceUrl;
-
-	useEffect(() => {
-		(async function () {
-			const posts = await client.query({ query: GET_POSTS(name) });
-			const dataPosts = await posts.data.posts.edges;
-			setArticles(dataPosts);
-		})();
-	}, [name]);
 
 	return (
 		<div>
@@ -77,7 +69,6 @@ const Categorie = ({ posts }) => {
 				/>
 				<LayoutArticle
 					col1={12}
-					// col2={3}
 					articleCardSize={3}
 					articles={articlesTwoLines}
 				/>
@@ -105,4 +96,4 @@ export async function getServerSideProps({ query }) {
 	};
 }
 
-export default Categorie;
+export default Recherche;

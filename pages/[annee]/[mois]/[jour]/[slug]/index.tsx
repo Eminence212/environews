@@ -17,11 +17,26 @@ import {
 	FaWhatsappSquare,
 } from 'react-icons/fa';
 
+import {
+	FacebookShareButton,
+	FacebookIcon,
+	LinkedinIcon,
+	LinkedinShareButton,
+	TwitterIcon,
+	TwitterShareButton,
+	WhatsappIcon,
+	WhatsappShareButton,
+} from 'react-share';
 import Link from 'next/link';
 import client from '../../../../../graphql/uri';
-import { GET_NEWS, GET_POSTS_SLUG } from '../../../../../graphql/queries';
+import {
+	GET_NEWS,
+	GET_POSTS_SLUG,
+	INSERT_COMMENT,
+} from '../../../../../graphql/queries';
 import { IArticles } from '../../../../categories/[name]/index';
 import { SimilarArticle } from '../../../../../components/Articles';
+import { useMutation } from '@apollo/client';
 
 export interface IComments {
 	comments: {
@@ -33,6 +48,38 @@ export interface IComments {
 }
 
 const Article = ({ article, news }) => {
+	const [coudlAppear, setCouldAppear] = useState(false);
+	const [pseudoComment, setPseudo] = useState('');
+	const [comment, setComment] = useState('');
+	const idPost = article.databaseId;
+
+	const handleChange = (event) => {
+		setPseudo(event.target.value);
+	};
+	const handleChangeComment = (event) => {
+		setComment(event.target.value);
+	};
+
+	const [insertMutation] = useMutation(
+		INSERT_COMMENT(idPost, pseudoComment, comment)
+	);
+
+	const handleSubmit = (e) => {
+		insertMutation();
+		setComment('');
+		setPseudo('');
+		setCouldAppear(true);
+		e.preventDefault();
+	};
+
+	if (coudlAppear) {
+		setTimeout(() => {
+			setCouldAppear(false);
+		}, 2000);
+	}
+
+	console.log(article.comments);
+
 	let deleteFig = article.content.replace(
 		/(figure|img)/,
 		'$1 style="display:none"'
@@ -42,23 +89,24 @@ const Article = ({ article, news }) => {
 		`style='display:none'`
 	);
 
-	const deleteFig2 = article.content.indexOf('src');
-	const deleteFig3 = article.content.lastIndexOf('jpg');
-	const img = article.content.slice(deleteFig2, deleteFig3);
+	const findSrc = article.content.indexOf('src');
+	const findJpg = article.content.lastIndexOf('jpg');
+	const img = article.content.slice(findSrc, findJpg);
 	const alt = img.indexOf('alt');
 	const src = img.slice(5, alt - 2);
-	const src2 = src.replace(
+	const srcReplaced = src.replace(
 		/http:\/\/environews-rdc.test:82/,
 		'https://a1-environews.kinshasadigital.academy/'
 	);
 
 	let image = '/assets/not_found.jpg';
 
-	if (src2.startsWith('https://a1-environews.kinshasadigital.academy/')) {
-		image = src2;
+	if (
+		srcReplaced.startsWith('https://a1-environews.kinshasadigital.academy/')
+	) {
+		image = srcReplaced;
 	}
 
-	console.log('article reading', content, src2);
 	const [comments, setComments] = useState<IComments['comments']>([
 		{
 			id: '34',
@@ -82,6 +130,7 @@ const Article = ({ article, news }) => {
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
 	const filteredArticlesSix = articles.filter((item, key) => key < 4);
+	console.log(article.uri);
 
 	return (
 		<div className={`container ${articleStyles.articleContent}`}>
@@ -120,39 +169,29 @@ const Article = ({ article, news }) => {
 						</li>
 					</div>
 
-					<div style={{ padding: '0px 0px 0px 10px' }}>
-						<Link href='/'>
-							<a>
-								<FaFacebookSquare
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'darkblue' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaTwitter
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'steelblue' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaWhatsappSquare
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'green' }}
-								/>
-							</a>
-						</Link>
-						<Link href='/'>
-							<a>
-								<FaLinkedinIn
-									className='mx-1 mt-3'
-									style={{ fontSize: '1.5rem', color: 'blue' }}
-								/>
-							</a>
-						</Link>
+					<div className={articleStyles.socialContainer}>
+						<FacebookShareButton
+							className={articleStyles.social}
+							url={`http://localhost:3000/${article.uri}`}
+							quote={article.title + ' A lire sur notre site'}>
+							<FacebookIcon size={30} />
+						</FacebookShareButton>
+
+						<TwitterShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							className={articleStyles.social}
+							title={article.title}
+							via='environews_rdc'>
+							<TwitterIcon size={30} />
+						</TwitterShareButton>
+
+						<WhatsappShareButton
+							url={`http://localhost:3000/${article.uri}`}
+							className={articleStyles.social}
+							title={'' + article.title}
+							separator=': '>
+							<WhatsappIcon size={30} />
+						</WhatsappShareButton>
 					</div>
 					<br />
 
@@ -163,28 +202,49 @@ const Article = ({ article, news }) => {
 							<h4 className='border-start px-2 border-success border-5'>
 								LAISSER UN COMMENTAIRE
 							</h4>
-							<div className={articleStyles.form}>
+							<form
+								className={articleStyles.form}
+								onSubmit={(event) => {
+									handleSubmit(event);
+								}}>
 								<input
 									className='form-control form-control-lg'
 									type='text'
 									placeholder='Pseudo'
+									value={pseudoComment}
+									onChange={(event) => {
+										handleChange(event);
+									}}
 								/>
 								<textarea
 									className='form-control'
-									placeholder='Commentaire'></textarea>
-								<button className='btn btn-success'>Envoyer</button>
-							</div>
+									placeholder='Commentaire'
+									value={comment}
+									onChange={(event) => {
+										handleChangeComment(event);
+									}}></textarea>
+								<button className='btn btn-success' type='submit'>
+									Envoyer
+								</button>
+
+								{coudlAppear && (
+									<h6 className='alert alert-success mt-4'>
+										Votre commentaire à été envoyé avec success
+									</h6>
+								)}
+							</form>
 						</div>
 						<div className='col-md-1 col-sm-12'></div>
-
-						{/** 
-							 * 	<div className='col-md-6 col-sm-12'>
+						<div className='col-md-6 col-sm-12'>
 							<h4 className='border-start px-2 border-success border-5'>
 								DERNIERS COMMENTAIRES
 							</h4>
-							<Comments comments={comments} />
+							{article.comments.edges == null ? (
+								<h4 className='text-success mt-5'>Aucun commentaire</h4>
+							) : (
+								<Comments comments={article.comments.edges} />
+							)}
 						</div>
-							*/}
 					</div>
 				</div>
 				<div className='col-md-3 col-sm-12'>

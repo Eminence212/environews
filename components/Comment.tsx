@@ -8,15 +8,22 @@ export interface IComments {
 		date: string;
 	}[];
 }
-const Comments: React.FC<IComments> = ({ comments }) => {
-	const renderComment = (): JSX.Element[] => {
-		return comments.map((comment) => (
-			<div key={comment.id} className={articleStyles.comment}>
-				<h6 data-testid='pseudo'>{comment.pseudo}</h6>
-				<p data-testid='description'>{comment.description}</p>
-				<span data-testid='comment-date'>{comment.date}</span>
+const Comments = ({ comments }) => {
+	const renderComment = () => {
+		return (
+			<div className={`${articleStyles.comment} ${articleStyles.scroll}`}>
+				{comments.map((comment) => (
+					<div key={comment.id} className={`mt-3`}>
+						<h6 data-testid='pseudo'>{comment.node.author.node.name}</h6>
+						<article
+							data-testid='description'
+							dangerouslySetInnerHTML={{ __html: comment.node.content }}
+						/>
+						<h6 className='text-muted'>{comment.node.date}</h6>
+					</div>
+				))}
 			</div>
-		));
+		);
 	};
 
 	return <div className={articleStyles.divider}>{renderComment()}</div>;
