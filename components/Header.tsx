@@ -409,7 +409,6 @@ const HiddenMenu: React.FC = () => {
 };
 
 const SearchBar: React.FC = () => {
-	const { toggleSearch, setToggleSearch } = useContext(toggleSearchContext);
 	const [query, setQuery] = useState('');
 	const [articles, setArticles] = useState([]);
 	const [autocomplete, setAutocomplete] = useState(false);
@@ -424,20 +423,15 @@ const SearchBar: React.FC = () => {
 	}, []);
 
 	const handleChange = (event) => {
-		//setfilteredArticles([]);
 		setQuery(
 			event.target.value.replace(
-				/[<>{}\"/|;:.,~!?@#$%^=&*\\]\\\\()\\[¿§«»ω⊙¤°℃℉€¥£¢¡®©0-9_+]|\s/g,
+				/[<>{}\"/|;:.,~!?@#$%^=&*\\]\\\\()\\[¿§«»ω⊙¤°℃℉€¥£¢¡®©_+]/g,
 				''
 			)
 		);
-		const filteredArticles = articles.filter((article) => {
-			if (article.node.title.toLowerCase().includes(query.toLowerCase())) {
-				return true;
-			} else {
-				return false;
-			}
-		});
+		const filteredArticles = articles.filter((article) =>
+			article.node.title.toLowerCase().includes(query.toLowerCase())
+		);
 		setfilteredArticles(filteredArticles);
 		setAutocomplete(true);
 
@@ -454,7 +448,7 @@ const SearchBar: React.FC = () => {
 
 	let strong = new RegExp(query, 'i');
 
-	console.log('taille tab ', filteredArticles.length);
+	//console.log('taille tab ', filteredArticles.length);
 
 	return (
 		<div className='m-4 col-md-7 d-flex flex-column position-relative'>
