@@ -59,7 +59,7 @@ const EnvironewsTV = () => {
 					</div>
 					<div className='col-md-4 col-12 my-3 my-md-0'>
 						<iframe
-							width='380'
+							width='340'
 							height='220'
 							src={`https://www.youtube.com/embed/fE5xTw5TFs8`}
 							frameBorder='1'
