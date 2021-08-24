@@ -11,9 +11,9 @@ export interface IComments {
 const Comments = ({ comments }) => {
 	const renderComment = () => {
 		return (
-			<div className={`${articleStyles.comment} ${articleStyles.scroll}`}>
-				{comments.map((comment) => (
-					<div key={comment.id} className={`mt-3`}>
+			<div className={`${articleStyles.comment} ${articleStyles.autoScroll}`}>
+				{comments.map((comment, key) => (
+					<div key={key} className={`mt-3`}>
 						<h6 data-testid='pseudo'>{comment.node.author.node.name}</h6>
 						<article
 							data-testid='description'

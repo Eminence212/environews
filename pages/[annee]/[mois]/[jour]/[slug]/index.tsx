@@ -78,8 +78,6 @@ const Article = ({ article, news }) => {
 		}, 2000);
 	}
 
-	console.log(article.comments);
-
 	let deleteFig = article.content.replace(
 		/(figure|img)/,
 		'$1 style="display:none"'
@@ -114,7 +112,7 @@ const Article = ({ article, news }) => {
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
 	const filteredArticlesSix = articles.filter((item, key) => key < 4);
-	console.log(article.uri);
+	//console.log('les commentaires ', article.databaseId);
 
 	return (
 		<div className={`container ${articleStyles.articleContent}`}>
@@ -226,7 +224,7 @@ const Article = ({ article, news }) => {
 							<h4 className='border-start px-2 border-success border-5'>
 								DERNIERS COMMENTAIRES
 							</h4>
-							{article.comments.edges == null ? (
+							{article.comments.edges.length == 0 ? (
 								<h4 className='text-success mt-5'>Aucun commentaire</h4>
 							) : (
 								<Comments comments={article.comments.edges} />
@@ -235,8 +233,7 @@ const Article = ({ article, news }) => {
 					</div>
 				</div>
 				<div className='col-md-3 col-sm-12'>
-					<div className={articleStyles.pub}></div>
-					<div className={`my-5 ${articleStyles.similarContainer}`}>
+					<div className={`${articleStyles.similarContainer}`}>
 						<h6 className='border-start px-2 border-success border-5'>
 							A LIRE AUSSI
 						</h6>

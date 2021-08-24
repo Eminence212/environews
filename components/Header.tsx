@@ -6,7 +6,7 @@ import headerStyles from '../styles/Header.module.css';
 import Logo from '../public/assets/environews_logo.png';
 import axios from 'axios';
 import client from '../graphql/uri';
-import { GET_CATEGORIES } from '../graphql/queries';
+import { GET_CATEGORIES, GET_NEWS_SEARCH } from '../graphql/queries';
 import {
 	FaFacebookSquare,
 	FaInstagramSquare,
@@ -155,7 +155,7 @@ const Appbar = () => {
 		stringDay && stringDay.charAt(0).toUpperCase() + stringDay.slice(1);
 
 	return (
-		<div className={`container ${headerStyles.header}`}>
+		<div className={`container ${headerStyles.header} `}>
 			<Link href='/' passHref>
 				<a>
 					<Image
@@ -167,6 +167,7 @@ const Appbar = () => {
 					/>
 				</a>
 			</Link>
+			<SearchBar />
 			<div className={headerStyles.weather}>
 				<Image
 					src={`/weather_icons/${
@@ -185,14 +186,7 @@ const Appbar = () => {
 						°C
 					</span>
 				</div>
-				<BsSearch
-					onClick={() => {
-						setToggleSearch(!toggleSearch);
-						setToggleMenu(false);
-					}}
-					fontSize={25}
-					className={`${headerStyles.icons}`}
-				/>
+
 				<button
 					onClick={() => {
 						setToggleMenu(!toggleMenu);
@@ -415,21 +409,92 @@ const HiddenMenu: React.FC = () => {
 };
 
 const SearchBar: React.FC = () => {
-	const { toggleSearch, setToggleSearch } = useContext(toggleSearchContext);
+	const [query, setQuery] = useState('');
+	const [articles, setArticles] = useState([]);
+	const [autocomplete, setAutocomplete] = useState(false);
+	const [filteredArticles, setfilteredArticles] = useState([]);
+
+	useEffect(() => {
+		(async function () {
+			const article = await client.query({ query: GET_NEWS_SEARCH });
+			const dataArticles = await article.data.posts.edges;
+			setArticles(dataArticles);
+		})();
+	}, []);
+
+	const handleChange = (event) => {
+		setQuery(
+			event.target.value.replace(
+				/[<>{}\"/|;:.,~!?@#$%^=&*\\]\\\\()\\[¿§«»ω⊙¤°℃℉€¥£¢¡®©_+]/g,
+				''
+			)
+		);
+		const filteredArticles = articles.filter((article) =>
+			article.node.title.toLowerCase().includes(query.toLowerCase())
+		);
+		setfilteredArticles(filteredArticles);
+		setAutocomplete(true);
+
+		if (query == '') {
+			setfilteredArticles([]);
+			setAutocomplete(false);
+		}
+	};
+
+	const handleClick = () => {
+		setAutocomplete(false);
+		setfilteredArticles([]);
+	};
+
+	let strong = new RegExp(query, 'i');
+
+	//console.log('taille tab ', filteredArticles.length);
 
 	return (
-		<div
-			className={`${headerStyles.search_bar_container} ${
-				!toggleSearch ? headerStyles.hidden : ''
-			}`}>
-			<input
-				type='search'
-				placeholder='Rechercher un article'
-				className={`${headerStyles.search_bar}`}
-			/>
-			<button className={`${headerStyles.search_button}`}>
-				<BsSearch fontSize={25} className={headerStyles.icons} />
-			</button>
+		<div className='m-4 col-md-7 d-flex flex-column position-relative'>
+			<form>
+				<input
+					type='search'
+					placeholder='Rechercher un article'
+					className={`${headerStyles.search_bar} `}
+					value={query}
+					onChange={(event) => {
+						handleChange(event);
+					}}
+				/>
+
+				<button className={`${headerStyles.search_button}`}>
+					<BsSearch fontSize={25} className={headerStyles.icons} />
+				</button>
+			</form>
+
+			{autocomplete && query != '' && (
+				<div
+					className={
+						filteredArticles.length < 6
+							? headerStyles.autocompletes
+							: headerStyles.autocomplete
+					}>
+					{filteredArticles.map((article, key) => (
+						<p key={key} className='border-bottom pb-2'>
+							<Link
+								href='/[annee]/[mois]/[jour]/[slug]'
+								as={`${article.node.uri}`}>
+								<a
+									onClick={() => {
+										handleClick();
+									}}
+									dangerouslySetInnerHTML={{
+										__html: article.node.title.replace(
+											strong,
+											`<b style="color:white;background-color:green; padding:0.5px 5px;">${query}</b>`
+										),
+									}}></a>
+							</Link>
+						</p>
+					))}
+				</div>
+			)}
 		</div>
 	);
 };
@@ -448,7 +513,6 @@ const Header = () => {
 				<div className={headerStyles.container}>
 					<Appbar />
 					<HiddenMenu />
-					<SearchBar />
 					<NavBar />
 				</div>
 			</toggleSearchContext.Provider>

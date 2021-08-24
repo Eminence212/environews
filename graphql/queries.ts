@@ -38,6 +38,19 @@ export const GET_NEWS = gql`
 	}
 `;
 
+export const GET_NEWS_SEARCH = gql`
+	{
+		posts(first: 200) {
+			edges {
+				node {
+					title
+					uri
+				}
+			}
+		}
+	}
+`;
+
 export const GET_PUBS = gql`
 	{
 		publicites {

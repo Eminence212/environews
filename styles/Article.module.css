@@ -2,9 +2,9 @@
 	color: #222;
 }
 
-.scroll {
+.autoScroll {
 	height: 250px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .title {

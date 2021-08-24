@@ -170,17 +170,45 @@
 	border: none;
 	outline: none;
 	border-bottom: 1px solid rgb(90, 89, 89);
-	width: 50%;
-	font-size: 1.2rem;
+	width: 90%;
+	font-size: 1rem;
 	font-family: roboto;
-	text-align: center;
 }
 
 .search_button {
 	border: none;
 	outline: none;
 	background: none;
+	margin-left: 5%;
 }
+
+.autocomplete {
+	border: 1px solid silver;
+	padding: 20px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 90%;
+	background-color: white;
+	z-index: 4;
+	transition: 0.2s ease;
+	height: 400px;
+	overflow-y: auto;
+}
+
+.autocompletes {
+	border: 1px solid silver;
+	padding: 20px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 90%;
+	background-color: white;
+	z-index: 4;
+	transition: 0.2s ease;
+	overflow-y: auto;
+}
+
 .active_link {
 	color: #fff;
 	background-color: #1f7045;
