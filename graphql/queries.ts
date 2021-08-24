@@ -142,13 +142,13 @@ export const GET_POSTS_HOME = (name) => {
 export const GET_POSTS_SLUG = (slug) => gql`
 {
   post(id: "${slug}", idType: URI) {
-	id
-	databaseId
+	 id
+    databaseId
     title
     content
-	date
-	commentCount
-	uri
+    date
+    commentCount
+    uri
     featuredImage {
       node {
         mediaItemUrl
@@ -158,15 +158,15 @@ export const GET_POSTS_SLUG = (slug) => gql`
         }
       }
     }
-	author{
-		node{
-			name
-		}
-	}
+    author {
+      node {
+        name
+      }
+    }
     comments {
       edges {
         node {
-		  date
+          date
           content
           author {
             node {
@@ -176,6 +176,7 @@ export const GET_POSTS_SLUG = (slug) => gql`
         }
       }
     }
+    excerpt(format: RENDERED)
   }
 }
 `;

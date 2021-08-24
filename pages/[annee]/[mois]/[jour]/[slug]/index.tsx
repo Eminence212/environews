@@ -89,6 +89,11 @@ const Article = ({ article, news }) => {
 		`style='display:none'`
 	);
 
+	const attack = article.excerpt.replace(
+		/(style='width:44px;left: -10px;top: 100px;-webkit-box-shadow:none;box-shadow:none;')/,
+		`style='display:none;'`
+	);
+
 	const findSrc = article.content.indexOf('src');
 	const findJpg = article.content.lastIndexOf('jpg');
 	const img = article.content.slice(findSrc, findJpg);
@@ -106,27 +111,6 @@ const Article = ({ article, news }) => {
 	) {
 		image = srcReplaced;
 	}
-
-	const [comments, setComments] = useState<IComments['comments']>([
-		{
-			id: '34',
-			pseudo: ' Beni Mampunina',
-			description: 'This is what you want I guess',
-			date: '24th july 2012',
-		},
-		{
-			id: '35',
-			pseudo: ' Beni Mampunina',
-			description: 'This is what you want I guess',
-			date: '24th july 2012',
-		},
-		{
-			id: '36',
-			pseudo: ' Beni Mampunina',
-			description: 'This is what you want I guess',
-			date: '24th july 2012',
-		},
-	]);
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
 	const filteredArticlesSix = articles.filter((item, key) => key < 4);
@@ -195,6 +179,9 @@ const Article = ({ article, news }) => {
 					</div>
 					<br />
 
+					<p
+						dangerouslySetInnerHTML={{ __html: attack }}
+						style={{ fontWeight: 'bold' }}></p>
 					<article dangerouslySetInnerHTML={{ __html: content }}></article>
 
 					<div className={`row ${articleStyles.footer}`}>
