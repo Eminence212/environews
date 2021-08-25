@@ -37,6 +37,9 @@
 	margin: 5px;
 }
 
+.dashed_border_breaking a:hover {
+	color: #089047;
+}
 .opportunities {
 	padding-top: 10px;
 	background-color: #f4f2f2;
@@ -54,11 +57,11 @@
 .opportunities p {
 	font-weight: 500;
 }
-
+.opportunities a:hover {
+	color: #089047;
+}
 .pub {
-	/* height: 512px; */
 	margin: 30px 0;
-	/* background-color: #089047; */
 }
 /* Editor Choice */
 .editorChoice {
@@ -132,6 +135,7 @@
 	z-index: 100;
 	bottom: 5%;
 	left: 3%;
+	width: 95%;
 }
 .imageSlider {
 	width: 100%;
@@ -197,15 +201,16 @@
 }
 
 .newsLetter h3 {
-	padding-bottom: 20px;
-	font-weight: 800;
-	font-size: 1.4rem;
+	margin-bottom: 15px;
+	font-weight: 500;
+	font-size: 1.2rem;
+	text-transform: capitalize;
 }
 
 .newsLetter p {
-	font-size: 1rem;
+	font-size: 0.95rem;
 	font-weight: 500;
-	padding: 10px;
+	margin: 15px auto;
 	width: 70%;
 	margin-left: auto;
 	margin-right: auto;
@@ -222,24 +227,39 @@
 	/* padding: 3px auto !important; */
 }
 .newsLetter button {
-	background: white;
 	border: 2px solid white;
 	border-radius: 0;
 	padding: 5px 7px;
-	color: #089047;
+	color: #fff;
 	box-sizing: border-box;
 	font-weight: bold;
 	font-size: 0.8rem;
+	background: none;
 }
 .newsLetter button:hover {
-	box-sizing: border-box;
 	border: 2px solid white;
-	background: none;
-	color: white;
+	background: white;
+	color: #089047;
 }
 .partners {
 	text-align: center;
 	padding: 50px;
+}
+
+.slideIcon {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 2rem;
+	color: white;
+	/* opacity :; */
+}
+
+.slideNext {
+	right: 20px;
+}
+.slidePrev {
+	left: 20px;
 }
 
 .partners h3 {
