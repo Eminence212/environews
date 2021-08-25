@@ -162,13 +162,14 @@ export const GET_POSTS_SLUG = (slug) => gql`
     date
     commentCount
     uri
-    featuredImage {
+     featuredImage {
       node {
         mediaItemUrl
         sourceUrl
         seo {
           metaKeywords
         }
+        altText
       }
     }
     author {
