@@ -179,10 +179,10 @@ const Appbar = () => {
 					alt='weather icon'
 				/>
 				<div className={` ${headerStyles.weather_date}`}>
-					<span>{stringDayCapitalize}</span>
+					<span className='d-sm-block d-none'>{stringDayCapitalize}</span>
 					<span>
 						{currentSituation.Temperature &&
-							Math.floor(currentSituation.Temperature.Metric.Value)}{' '}
+							Math.floor(currentSituation.Temperature.Metric.Value)}
 						°C
 					</span>
 				</div>
@@ -451,7 +451,7 @@ const SearchBar: React.FC = () => {
 	//console.log('taille tab ', filteredArticles.length);
 
 	return (
-		<div className='d-flex col-md-7 col-12 flex-column position-relative'>
+		<div className='d-flex col-md-7  flex-column position-relative'>
 			<form className='d-flex'>
 				<input
 					type='search'
