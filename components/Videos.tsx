@@ -1,13 +1,10 @@
 import heroStyles from '../styles/Hero.module.css';
-import EnvironewsTV from '../pages/environewstv/index';
 
 const Videos = ({ title, videos }) => {
 	const recentVideoId = videos[0].node.lien_youtube.lienYoutube.replace(
 		/^https:\/\/youtu.be\/([a-z0-9]+)\?(.)+$/i,
 		'$1'
 	);
-	console.log('CurrentID: ', recentVideoId);
-
 	return (
 		<div className={`col-md-12 ${heroStyles.environews_tv}`}>
 			<div className='container'>
