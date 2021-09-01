@@ -451,12 +451,12 @@ const SearchBar: React.FC = () => {
 	//console.log('taille tab ', filteredArticles.length);
 
 	return (
-		<div className='m-4 col-md-7 d-flex flex-column position-relative'>
-			<form>
+		<div className='d-flex col-md-7 col-12 flex-column position-relative'>
+			<form className='d-flex'>
 				<input
 					type='search'
 					placeholder='Rechercher un article'
-					className={`${headerStyles.search_bar} `}
+					className={`${headerStyles.search_bar}`}
 					value={query}
 					onChange={(event) => {
 						handleChange(event);

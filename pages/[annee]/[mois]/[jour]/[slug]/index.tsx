@@ -136,11 +136,14 @@ const Article = ({ article, news }) => {
 								: article.featuredImage.node.mediaItemUrl
 						}
 						alt={article.title}
-						className='w-100'
+						className='img-fluid'
 						height={500}
 						style={{ objectFit: 'cover' }}
 					/>
-					<p>{article.featuredImage.node.altText}</p>
+					<caption>
+						{article.featuredImage !== null &&
+							article.featuredImage.node.altText}
+					</caption>
 					<div className={articleStyles.tags}>
 						<li>
 							<FaRegUser /> {article.author.node.name}
