@@ -12,6 +12,7 @@ import Articles, { TopArticle } from '../components/Articles';
 import Opportunities from '../components/Opportunities';
 import Categories from '../components/Categories';
 import client from '../graphql/uri';
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import {
 	GET_OPPORTUNITIES,
 	GET_NEWS,
@@ -63,6 +64,24 @@ export default function Home({
 		useState<IOpportunities['opportunities']>(opportunities);
 
 	const handleDragStart = (e) => e.preventDefault();
+
+	const renderPrevButton = ({ isDisabled }) => {
+		return (
+			<IoIosArrowBack
+				className={`${heroStyles.slideIcon} ${heroStyles.slidePrev}`}
+				style={{ opacity: isDisabled ? '0.5' : '0.7' }}
+			/>
+		);
+	};
+
+	const renderNextButton = ({ isDisabled }) => {
+		return (
+			<IoIosArrowForward
+				className={`${heroStyles.slideIcon} ${heroStyles.slideNext}`}
+				style={{ opacity: isDisabled ? '0.5' : '0.7' }}
+			/>
+		);
+	};
 
 	const items = [
 		<Image
@@ -148,16 +167,13 @@ export default function Home({
 								})}
 								infinite
 								disableDotsControls
-								disableButtonsControls
+								renderPrevButton={renderPrevButton}
+								renderNextButton={renderNextButton}
 								autoPlay
 								animationDuration={400}
 								autoPlayInterval={10000}
 								animationType='fadeout'
-								// autoWidth={true}
 							/>
-							{/* <span>
-								{}
-							</span> */}
 						</div>
 						<br />
 						<br />

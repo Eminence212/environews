@@ -179,10 +179,10 @@ const Appbar = () => {
 					alt='weather icon'
 				/>
 				<div className={` ${headerStyles.weather_date}`}>
-					<span>{stringDayCapitalize}</span>
+					<span className='d-sm-block d-none'>{stringDayCapitalize}</span>
 					<span>
 						{currentSituation.Temperature &&
-							Math.floor(currentSituation.Temperature.Metric.Value)}{' '}
+							Math.floor(currentSituation.Temperature.Metric.Value)}
 						°C
 					</span>
 				</div>
@@ -451,12 +451,12 @@ const SearchBar: React.FC = () => {
 	//console.log('taille tab ', filteredArticles.length);
 
 	return (
-		<div className='m-4 col-md-7 d-flex flex-column position-relative'>
-			<form>
+		<div className='d-flex col-md-7  flex-column position-relative'>
+			<form className='d-flex'>
 				<input
 					type='search'
 					placeholder='Rechercher un article'
-					className={`${headerStyles.search_bar} `}
+					className={`${headerStyles.search_bar}`}
 					value={query}
 					onChange={(event) => {
 						handleChange(event);

@@ -102,6 +102,8 @@ const Article = ({ article, news }) => {
 		'https://a1-environews.kinshasadigital.academy/'
 	);
 
+	const paragraphReplaced = content.replace(/<p>.{1,}<\/p>/, ' ');
+
 	let image = '/assets/not_found.jpg';
 
 	if (
@@ -112,7 +114,6 @@ const Article = ({ article, news }) => {
 
 	const [articles, setArticles] = useState<IArticles['articles']>(news);
 	const filteredArticlesSix = articles.filter((item, key) => key < 4);
-	//console.log('les commentaires ', article.databaseId);
 
 	return (
 		<div className={`container ${articleStyles.articleContent}`}>
@@ -139,6 +140,10 @@ const Article = ({ article, news }) => {
 						height={500}
 						style={{ objectFit: 'cover' }}
 					/>
+					<p style={{ width: '100%', fontWeight: 'bold' }} role='caption'>
+						{article.featuredImage !== null &&
+							article.featuredImage.node.altText}
+					</p>
 					<div className={articleStyles.tags}>
 						<li>
 							<FaRegUser /> {article.author.node.name}
@@ -177,10 +182,11 @@ const Article = ({ article, news }) => {
 					</div>
 					<br />
 
-					<p
+					<article
 						dangerouslySetInnerHTML={{ __html: attack }}
-						style={{ fontWeight: 'bold' }}></p>
-					<article dangerouslySetInnerHTML={{ __html: content }}></article>
+						style={{ fontWeight: 'bold' }}></article>
+					<article
+						dangerouslySetInnerHTML={{ __html: paragraphReplaced }}></article>
 
 					<div className={`row ${articleStyles.footer}`}>
 						<div className='col-md-5 col-sm-12'>
