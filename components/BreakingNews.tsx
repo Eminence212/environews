@@ -5,7 +5,6 @@ import Link from 'next/link';
 import heroStyles from '../styles/Hero.module.css';
 
 const BreakingNews: React.FC<IProps> = ({ breakingNews }) => {
-	console.log(breakingNews);
 	const renderBreakingNews = (): JSX.Element[] => {
 		const filteredBreakingNews = breakingNews.filter((item, key) => key < 5);
 		return filteredBreakingNews.map((news, key) => {

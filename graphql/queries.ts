@@ -242,3 +242,26 @@ export const INSERT_COMMENT = (id, author, comment) => {
 		}
 	`;
 };
+
+export const GET_VIDEOS = gql`
+	{
+		emissions {
+			edges {
+				node {
+					lien_youtube {
+						lienYoutube
+						fieldGroupName
+					}
+					title
+					programmes {
+						edges {
+							node {
+								name
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;

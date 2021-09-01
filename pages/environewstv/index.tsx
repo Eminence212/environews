@@ -6,6 +6,8 @@ import AboutStyle from '../../styles/About.module.css';
 import EnvironewsStyle from '../../styles/Environews.module.css';
 import TvInfo from '../../components/TvInfo';
 import Videos from '../../components/Videos';
+import { GET_VIDEOS } from '../../graphql/queries';
+import client from '../../graphql/uri';
 
 interface EmissionProps {
 	emission: {
@@ -16,7 +18,7 @@ interface EmissionProps {
 	}[];
 }
 
-const EnvironewsTV = () => {
+const EnvironewsTV = ({ videos }) => {
 	const [emission, setEmission] = useState<EmissionProps['emission']>([
 		{
 			id: 1,
@@ -114,7 +116,7 @@ const EnvironewsTV = () => {
 					</div>
 				</div>
 			</div>
-			<Videos title='Annonces' />
+			<Videos title='Annonces' videos={videos} />
 			<div className='container mt-5' id='emission'>
 				<div className='row'>
 					<div className='col-md-12'>
@@ -137,3 +139,13 @@ const EnvironewsTV = () => {
 };
 
 export default EnvironewsTV;
+
+export async function getStaticProps() {
+	const videos = await client.query({ query: GET_VIDEOS });
+
+	return {
+		props: {
+			videos: videos.data.emissions.edges,
+		},
+	};
+}

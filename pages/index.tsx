@@ -18,8 +18,8 @@ import {
 	GET_PUBS,
 	GET_BREAKING_NEWS,
 	GET_POSTS_HOME,
+	GET_VIDEOS,
 } from '../graphql/queries';
-import AdSense from 'react-adsense';
 import AliceCaroussel from '../components/AliceCaroussel';
 import Videos from '../components/Videos';
 export interface IState {
@@ -49,6 +49,7 @@ export default function Home({
 	artcleByCategorySante,
 	artcleByCategoryBiodiversite,
 	artcleByCategoryEnvironnement,
+	videos,
 }) {
 	const [breakingNews_, setBreakingNews] =
 		useState<IState['breakingNews']>(breakingNews);
@@ -186,7 +187,7 @@ export default function Home({
 				/>
 				<Categories articles={artcleByCategorySante} title='sante' />
 			</div>
-			<Videos title='Environews TV' />
+			<Videos title='Environews TV' videos={videos} />
 			<div className='container'>
 				<div className='row py-5'>
 					<div className={`col-md-6 col-sm-12 px-3 ${heroStyles.editorChoice}`}>
@@ -247,6 +248,7 @@ export async function getStaticProps() {
 	const artcleByCategoryBiodiversite = await client.query({
 		query: GET_POSTS_HOME('biodiversite'),
 	});
+	const videos = await client.query({ query: GET_VIDEOS });
 
 	return {
 		props: {
@@ -259,6 +261,7 @@ export async function getStaticProps() {
 			artcleByCategoryEnvironnement:
 				artcleByCategoryEnvironnement.data.posts.edges,
 			artcleByCategorySante: artcleByCategorySante.data.posts.edges,
+			videos: videos.data.emissions.edges,
 		},
 	};
 }
